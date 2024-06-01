@@ -30,6 +30,7 @@ dynamic attendance_msg = '';
 
 final ColorPicker colorPicker = ColorPicker();
 final UrlManager url_manager = UrlManager();
+final image_path = 'images/symphony-logo-small.jpg';
 
 class AlertDialogExampleApp extends StatelessWidget {
   AlertDialogExampleApp(

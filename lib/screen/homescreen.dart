@@ -94,7 +94,12 @@ class _HomeBody extends State<HomeScreen> {
     getuserinfo(context, htoken.token_type, htoken.access_token, huserName)
         .then((value) {
       setState(() {
-        print("the result : ${userInfo.success}");
+        print("the result is it : ${userInfo.result}");
+        userInfo = UserInfo(
+          success: userInfo.success,
+          code: userInfo.code,
+          result: userInfo.result,
+        );
       });
     });
     getPolicy(huserName, htoken).then((value) {
@@ -113,7 +118,7 @@ class _HomeBody extends State<HomeScreen> {
           code: 200,
           result: Result(
               fullName: "",
-              logId: "",
+              logId: "502",
               employeeId: "",
               designationName: "",
               sectionName: "",
@@ -178,7 +183,9 @@ class _HomeBody extends State<HomeScreen> {
     // int randomIndex = random.nextInt(paths.length);
     // String selectedPath = paths[randomIndex];
     final screenSize = MediaQuery.of(context).size;
-    return userInfo.result.logId.isEmpty || !isLoading
+    print("the data: ${userInfo.result.logId.isEmpty}");
+    print(userInfo.result.logId);
+    return userInfo.result.logId.isEmpty
         ? isData()
             ? Container(
                 color: Colors.white,
@@ -193,7 +200,7 @@ class _HomeBody extends State<HomeScreen> {
                     ),
                     Center(
                       child: Text(
-                        "Please update the time policy",
+                        "Please update your time policy",
                         style: TextStyle(
                           fontFamily: "sans-sarif",
                           fontSize: 10,
@@ -203,10 +210,27 @@ class _HomeBody extends State<HomeScreen> {
                   ],
                 ),
               )
-            : Center(
-                child: LoadingAnimationWidget.staggeredDotsWave(
-                  color: Colors.black,
-                  size: 100,
+            : Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                        color: Colors.black,
+                        size: 100,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "User Infor is empty please again login with valid emp id",
+                        style: TextStyle(
+                          fontFamily: "sans-sarif",
+                          fontSize: 10,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               )
         : MaterialApp(
@@ -531,7 +555,11 @@ class _HomeBody extends State<HomeScreen> {
 UrlManager urls = UrlManager();
 
 Future<void> getuserinfo(
-    BuildContext context, token_type, access_token, user_name) async {
+  BuildContext context,
+  token_type,
+  access_token,
+  user_name,
+) async {
   // user_name = '6';
   final url2 = Uri.parse('${urls.token_url}/api/User/UserInfo/${user_name}');
   final headers2 = {

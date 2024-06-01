@@ -221,7 +221,6 @@ class _MyBody extends State<MyBody> {
 // Extracting the grace minutes
       int graceMinutes = int.parse(time2);
 
-// Constructing a DateTime object for the target time (9:15 plus grace minutes)
       DateTime targetTime = DateTime(
         currentTime.year,
         currentTime.month,
@@ -236,40 +235,36 @@ class _MyBody extends State<MyBody> {
       print(hour);
       print(minute);
 
-// Print the result
       print(
           'Is the current time before 9:15 plus grace minutes? $isAfterTargetTime');
-
-      // // Formatting the parsed time to extract hours and minutes
-
-      // // Set the start time to 9:00 AM
-      // DateTime startTime = DateTime(
-      //   currentTime.year,
-      //   currentTime.month,
-      //   currentTime.day,
-      //   int.parse(time[0]),
-      //   int.parse(time[1]),
-      // );
-      // startTime = startTime
-      //     .add(Duration(minutes: int.parse(policy_items.first.inGraceMin)));
-
-      // // Set the end time to the parsed lunchTimeMin
-      // DateTime endTime = DateTime(
-      //   currentTime.year,
-      //   currentTime.month,
-      //   currentTime.day,
-      //   int.parse(time2[0]),
-      //   int.parse(time2[1]),
-      // );
-
-      // // Check if the current time is between 9:00 AM and the parsed lunchTimeMin
-      // isBetween9to1 = currentTime.isAfter(startTime);
-
-      // Return the result
     } catch (e) {
       print("the error: ${e}");
     }
     return isAfterTargetTime;
+  }
+
+  bool isAfterOnePM() {
+    bool isAfterOnePM = false;
+    try {
+      // Get the current time
+      DateTime currentTime = DateTime.now();
+
+      // Define the target time as 1:00 PM
+      DateTime targetTime = DateTime(
+        currentTime.year,
+        currentTime.month,
+        currentTime.day,
+        14, // 1 PM (24-hour format)
+        0, // 00 minutes
+      );
+
+      // Check if the current time is after the target time
+      isAfterOnePM = currentTime.isAfter(targetTime);
+      print('Is the current time after 1:00 PM? $isAfterOnePM');
+    } catch (e) {
+      print("Error: ${e}");
+    }
+    return isAfterOnePM;
   }
 
   @override
@@ -529,7 +524,7 @@ class _MyBody extends State<MyBody> {
                 vertical: 16,
                 horizontal: 8,
               ),
-              child: !isDelayed()
+              child: !isDelayed() || isAfterOnePM()
                   ? Container(
                       child: Text(""),
                     )
